@@ -1,15 +1,36 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 function page() {
+  const router = useRouter();
   const [isDisabled, setIsDisabled] = useState(true);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  function handleLogin(e: any) {
+  async function handleLogin(e: any) {
     e.preventDefault();
+
+    const res = await fetch("/api/user/login", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const result = await res.json();
+
+    if (result.success == true) {
+      toast.success(result.message);
+      router.push("/");
+      setFormData({ email: "", password: "" });
+    } else {
+      toast.error(result.message);
+    }
   }
 
   useEffect(() => {

@@ -1,7 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
+
 function page() {
+  const router = useRouter();
   const [isDisabled, setIsDisabled] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
@@ -21,10 +25,24 @@ function page() {
     }
   }, [formData]);
 
-  function handleSignup(e: any) {
+  async function handleSignup(e: any) {
     e.preventDefault();
 
-    console.log(formData);
+    const res = await fetch("/api/user/signup", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    const result = await res.json();
+    if (result.success == true) {
+      toast.success(result.message);
+      router.push("/login");
+      setFormData({ name: "", email: "", password: "" });
+    } else {
+      toast.error(result.message);
+    }
   }
 
   return (
@@ -54,12 +72,13 @@ function page() {
           />
         </div>
         <div className="flex flex-col ">
-          <label htmlFor="password">Password*</label>
+          <label htmlFor="formPassword">Password*</label>
           <input
             className="border-2 border-gray-300 rounded-sm px-2 py-1 outline-none"
             type="password"
-            id="password"
+            id="formPassword"
             value={formData.password}
+            autoComplete="current-password"
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
@@ -70,7 +89,7 @@ function page() {
             isDisabled ? "bg-gray-400" : "bg-red-600"
           } py-2 rounded-md text-center text-white font-bold`}
         >
-          <button disabled={isDisabled} onClick={handleSignup}>
+          <button type="submit" disabled={isDisabled} onClick={handleSignup}>
             Signup
           </button>
         </div>
