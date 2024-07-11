@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 function page() {
   const router = useRouter();
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isLoading, setisLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -13,7 +14,7 @@ function page() {
 
   async function handleLogin(e: any) {
     e.preventDefault();
-
+    setisLoading(true);
     const res = await fetch("/api/user/login", {
       method: "post",
       headers: {
@@ -26,10 +27,12 @@ function page() {
 
     if (result.success == true) {
       toast.success(result.message);
+      setisLoading(false);
       router.push("/");
       setFormData({ email: "", password: "" });
     } else {
       toast.error(result.message);
+      setisLoading(false);
     }
   }
 
@@ -44,7 +47,7 @@ function page() {
   return (
     <div className="w-full h-screen bg-blue-400 flex items-center justify-center">
       <form className="bg-white rounded-md p-5 flex flex-col gap-4">
-        <h2 className=" font-bold ">Login</h2>
+        <h2 className=" font-bold ">{isLoading ? "Processing..." : "Login"}</h2>
 
         <div className="flex flex-col ">
           <label htmlFor="email">Email*</label>
@@ -72,10 +75,14 @@ function page() {
         </div>
         <div
           className={`${
-            isDisabled ? "bg-gray-400" : "bg-red-600"
+            isDisabled || isLoading ? "bg-gray-400" : "bg-red-600"
           } py-2 rounded-md text-center text-white font-bold`}
         >
-          <button disabled={isDisabled} onClick={handleLogin}>
+          <button
+            className="w-full"
+            disabled={isDisabled || isLoading}
+            onClick={handleLogin}
+          >
             Signup
           </button>
         </div>

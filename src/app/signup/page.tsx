@@ -6,6 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 function page() {
   const router = useRouter();
+  const [isLoading, setisLoading] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
@@ -27,6 +28,7 @@ function page() {
 
   async function handleSignup(e: any) {
     e.preventDefault();
+    setisLoading(true);
 
     const res = await fetch("/api/user/signup", {
       method: "post",
@@ -38,17 +40,21 @@ function page() {
     const result = await res.json();
     if (result.success == true) {
       toast.success(result.message);
+      setisLoading(false);
       router.push("/login");
       setFormData({ name: "", email: "", password: "" });
     } else {
       toast.error(result.message);
+      setisLoading(false);
     }
   }
 
   return (
     <div className="w-full h-screen bg-blue-400 flex items-center justify-center">
       <form className="bg-white rounded-md p-5 flex flex-col gap-4">
-        <h2 className=" font-bold ">Signup</h2>
+        <h2 className=" font-bold ">
+          {isLoading ? "Processing..." : "Signup"}
+        </h2>
         <div className="flex flex-col ">
           <label htmlFor="name">Name*</label>
           <input
@@ -86,10 +92,14 @@ function page() {
         </div>
         <div
           className={`${
-            isDisabled ? "bg-gray-400" : "bg-red-600"
+            isDisabled || isLoading ? "bg-gray-400" : "bg-red-600"
           } py-2 rounded-md text-center text-white font-bold`}
         >
-          <button type="submit" disabled={isDisabled} onClick={handleSignup}>
+          <button
+            type="submit"
+            disabled={isDisabled || isLoading}
+            onClick={handleSignup}
+          >
             Signup
           </button>
         </div>
