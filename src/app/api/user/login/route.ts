@@ -40,8 +40,13 @@ export async function POST(req: NextRequest) {
         },
         { status: 200 }
       );
+      let expiTime = new Date();
+      expiTime.setDate(expiTime.getDate() + 30);
 
-      res.cookies.set("auth_token", token, { httpOnly: true });
+      res.cookies.set("auth_token", token, {
+        httpOnly: true,
+        expires: expiTime,
+      });
 
       return res;
     }

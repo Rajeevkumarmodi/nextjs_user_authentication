@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import User from "@/models/user.model";
+import { connect } from "@/database/dbConnection";
 
+connect();
 export async function GET(request: NextRequest) {
   try {
     const token = request.cookies.get("auth_token")?.value || "";
