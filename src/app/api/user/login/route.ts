@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
-import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import User from "@/models/user.model";
 import { connect } from "@/database/dbConnection";

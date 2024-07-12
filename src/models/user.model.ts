@@ -14,11 +14,19 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isVarified: {
+      type: Boolean,
+      default: false,
+    },
     isAdmin: {
       type: Boolean,
       default: false,
       required: true,
     },
+    forgotPasswordToken: String,
+    forgotPasswordTokenExpiry: Date,
+    verifyToken: String,
+    verifyTokenExpiry: Date,
   },
   { timestamps: true }
 );
