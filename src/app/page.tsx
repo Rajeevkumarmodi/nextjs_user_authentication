@@ -6,7 +6,8 @@ import Link from "next/link";
 
 export default function Home() {
   const [userDetail, setUserDetail] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   const router = useRouter();
 
@@ -31,6 +32,30 @@ export default function Home() {
     } else {
       toast.error(result.message);
       setIsLoading(false);
+    }
+  }
+
+  async function handleVarify() {
+    setButtonLoading(true);
+    const res = await fetch("/api/user/send-email", {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: userDetail.email,
+        emailType: "VERIFY",
+        userId: userDetail._id,
+      }),
+    });
+
+    const result = await res.json();
+    if (result.success) {
+      setButtonLoading(false);
+      toast.success(result.message);
+    } else {
+      setButtonLoading(false);
+      toast.error(result.message);
     }
   }
 
@@ -60,6 +85,22 @@ export default function Home() {
               <div className="flex flex-col gap-2">
                 <p>Name : {userDetail.name}</p>
                 <p>Email : {userDetail.email}</p>
+              </div>
+
+              <div>
+                {userDetail.isVarified ? (
+                  <p className="mt-4 text-green-400">varified</p>
+                ) : (
+                  <button
+                    disabled={buttonLoading}
+                    onClick={handleVarify}
+                    className={`px-5 py-2 ${
+                      buttonLoading ? "bg-gray-400" : "bg-blue-500"
+                    } mt-4 text-white rounded-md`}
+                  >
+                    {buttonLoading ? "Processing..." : " varify email"}
+                  </button>
+                )}
               </div>
             </>
           )}

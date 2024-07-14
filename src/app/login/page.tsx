@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-function page() {
+function Login() {
   const router = useRouter();
   const [isDisabled, setIsDisabled] = useState(true);
   const [isLoading, setisLoading] = useState(false);
@@ -83,8 +83,16 @@ function page() {
             disabled={isDisabled || isLoading}
             onClick={handleLogin}
           >
-            Signup
+            Login
           </button>
+        </div>
+        <div className="text-center">
+          <Link
+            className="text-blue-500 hover:underline"
+            href={"/forget-password"}
+          >
+            Forget password?
+          </Link>
         </div>
         <div className="flex gap-1">
           <p>Do not have an account? </p>
@@ -97,4 +105,4 @@ function page() {
   );
 }
 
-export default page;
+export default Login;

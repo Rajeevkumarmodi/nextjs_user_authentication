@@ -53,13 +53,13 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
             `
             : `
              <div>
-                <p className="font-bold"> Forgot your password?</p>
-                <p>We received a request to reset the password for your account.</p>
+                <p className="font-bold"> Forget your password?</p>
+                <p>We received a request to forget the password for your account.</p>
                 <p>This link will only be valid for the next 5 hours.</p>
-                <p>To reset your password, click on the button below:</p>
-                <div className="text-center my-4"><a href="${process.env.DOMAIN}/resetpassword?token=${hashToken}" className="px-4 py-1 rounded-md text-white">Reset Password</a><div> 
+                <p>To forget your password, click on the button below:</p>
+                <div className="text-center my-4"><a href="${process.env.DOMAIN}/resetpassword?token=${hashToken}" className="px-4 py-1 rounded-md text-white">Forget Password</a><div> 
                 <p className="mt-6">Or copy and paste the URL into your browser:</p>
-                <a href="${process.env.DOMAIN}/resetpassword?token=${hashToken}" >${process.env.DOMAIN}/resetpassword?token=${hashToken}</a>               
+                <a href="${process.env.DOMAIN}/forgetpassword?token=${hashToken}" >${process.env.DOMAIN}/resetpassword?token=${hashToken}</a>               
            </div>
             `
         }
