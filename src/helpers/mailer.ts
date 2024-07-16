@@ -36,7 +36,7 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
       from: "rk0424067@gmail.com", // sender address
       to: email, // list of receivers
       subject:
-        emailType === "VERIFY" ? "Verify uour email" : "Reset Your password",
+        emailType === "VERIFY" ? "Verify uour email" : "Forget Your password",
       html: `
         ${
           emailType === "VERIFY"
@@ -59,7 +59,7 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
                 <p>To forget your password, click on the button below:</p>
                 <div className="text-center my-4"><a href="${process.env.DOMAIN}/resetpassword?token=${hashToken}" className="px-4 py-1 rounded-md text-white">Forget Password</a><div> 
                 <p className="mt-6">Or copy and paste the URL into your browser:</p>
-                <a href="${process.env.DOMAIN}/forgetpassword?token=${hashToken}" >${process.env.DOMAIN}/resetpassword?token=${hashToken}</a>               
+                <a href="${process.env.DOMAIN}/forgetpassword?token=${hashToken}" >${process.env.DOMAIN}/forgetpassword?token=${hashToken}</a>               
            </div>
             `
         }

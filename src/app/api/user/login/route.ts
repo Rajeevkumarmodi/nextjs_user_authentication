@@ -48,6 +48,11 @@ export async function POST(req: NextRequest) {
       });
 
       return res;
+    } else {
+      return NextResponse.json(
+        { success: false, message: "Invalid email and password " },
+        { status: 400 }
+      );
     }
   } catch (error: any) {
     console.log("error", error.message);

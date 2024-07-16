@@ -1,6 +1,8 @@
+import { connect } from "@/database/dbConnection";
 import { sendEmail } from "@/helpers/mailer";
 import { NextResponse, NextRequest } from "next/server";
 
+connect();
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

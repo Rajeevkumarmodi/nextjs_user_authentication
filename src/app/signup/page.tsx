@@ -18,7 +18,7 @@ function page() {
     if (
       formData.name.length > 1 &&
       formData.email.length > 8 &&
-      formData.password.length > 4
+      formData.password.length >= 4
     ) {
       setIsDisabled(false);
     } else {

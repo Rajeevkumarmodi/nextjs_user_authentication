@@ -37,7 +37,7 @@ function Login() {
   }
 
   useEffect(() => {
-    if (formData.email.length > 8 && formData.password.length > 4) {
+    if (formData.email.length > 8 && formData.password.length >= 4) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
